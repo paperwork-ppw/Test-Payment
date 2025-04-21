@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TES SYSTEMP PAYMENT</title>
+    <title>PAPER WORK PAYMENT SYSTEM</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -25,6 +25,31 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            /* Copy protection styles */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        /* Disable image dragging */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+
+        /* Disable context menu */
+        body {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
         }
 
         .bg-darker {
@@ -362,7 +387,7 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
     <div class="container py-4">
         <!-- Home Page -->
         <div id="home-page" class="page active-page">
@@ -370,27 +395,27 @@
                 <div class="col-md-8 col-lg-6">
                     <div class="text-center mb-4">
                         <h1 class="luxury-text mb-2" style="font-size: 1.8rem;">Payment Online</h1>
-                        <p class="text-muted" style="font-size: 0.9rem;">บริการชำระเงินแบบออนไลน์</p>
+                        <p class="text-muted" style="font-size: 0.9rem;">บริการชำระค่าบริการแบบออนไลน์</p>
                     </div>
 
                     <div class="card-luxury compact-card mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
-                                <p class="text-muted mb-1" style="font-size: 0.85rem;">Available Balance</p>
-                                <h3 class="luxury-text" style="font-size: 1.5rem;">TEST SYSTEMP</h3>
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">Account Name</p>
+                                <h3 class="luxury-text" style="font-size: 1.5rem;">Test System</h3>
                             </div>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" class="card-logo">
                         </div>
 
                         <div class="mb-3">
-                            <p class="text-muted mb-1" style="font-size: 0.85rem;">Card Number</p>
-                            <h4 class="card-number">•••• •••• •••• 1234</h4>
+                            <p class="text-muted mb-1" style="font-size: 0.85rem;">Account Number</p>
+                            <h4 class="card-number">987--XXX-123</h4>
                         </div>
 
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-muted mb-1" style="font-size: 0.85rem;">Accounting</p>
-                                <h5 style="font-size: 1rem;"Prompt Pay</ h5>
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">ACCOUNTTING</p>
+                                <h5 style="font-size: 1rem;">Prompt Pay</h5>
                             </div>
                             <div>
                                 <p class="text-muted mb-1" style="font-size: 0.85rem;">Status</p>
@@ -401,7 +426,7 @@
 
                     <div class="text-center">
                         <button id="send-new-btn" class="btn luxury-btn luxury-btn-sm px-4 py-2">
-                            <i class="fas fa-paper-plane me-2"></i>CREAREAT PAYMENT
+                            <i class="fas fa-paper-plane me-2"></i> CREATE A PAYMENT
                         </button>
                     </div>
                 </div>
@@ -413,7 +438,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
                     <div class="header">
-                        <h2 class="luxury-text text-center mb-0" style="font-size: 1.5rem;">PAY AMOUNT</h2>
+                        <h2 class="luxury-text text-center mb-0" style="font-size: 1.5rem;">PAYMENT AMOUNT</h2>
                         <button class="btn btn-sm text-muted position-absolute" onclick="goBack()" style="left: 0; top: 0; font-size: 0.8rem;">
                             <i class="fas fa-arrow-left me-1"></i> BACK
                         </button>
@@ -421,11 +446,11 @@
 
                     <div class="card-luxury p-3 mb-3">
                         <div class="mb-3">
-                            <label class="form-label text-muted" style="font-size: 0.85rem;">Recipient</label>
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">Account Name</label>
                             <div class="input-luxury p-2">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span style="font-size: 0.95rem;">Test Systemp</span>
-                                    <span class="text-muted" style="font-size: 0.85rem;">PROMPTPAY</span>
+                                    <span style="font-size: 0.95rem;">Tes Systemp Pay.Fee</span>
+                                    <span class="text-muted" style="font-size: 0.85rem;">G-WALLET</span>
                                 </div>
                             </div>
                         </div>
@@ -495,22 +520,40 @@
                             <h2 id="paid-amount" class="amount-display" style="font-size: 1.8rem;">0.00 THB</h2>
                         </div>
 
+                        <div class="mb-3">
+                            <div style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-muted);">Amount:</span>
+                                    <span id="original-amount">0.00 THB</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; color: #ff6b6b;">
+                                    <span>Fee:</span>
+                                    <span>5.00 THB</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.1); font-weight: bold;">
+                                    <span>Total:</span>
+                                    <span id="total-amount">5.00 THB</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <center> <img src="https://img2.pic.in.th/pic/1000008216.jpg" class="card-logo"></center>
                         <div class="qr-container mb-3">
                             <img id="promptpay-qr-img" src="" alt="QR Code" style="width: 100%; height: 100%;">
                         </div>
 
                         <div class="qr-timer" id="qr-timer">
-                            QR Code will expire in: 01:00
+                            QR Code จะหมดอายุในอีก: 01:00
                         </div>
 
                         <div class="text-start mb-3">
                             <div class="transaction-detail">
-                                <span class="transaction-label">Recipient</span>
-                                <span class="transaction-value">Test System</span>
+                                <span class="transaction-label">Account Name</span>
+                                <span class="transaction-value">นรินทร์ภัทร มีชัย</span>
                             </div>
                             <div class="transaction-detail">
                                 <span class="transaction-label">Account Number</span>
-                                <span class="transaction-value">1234567890</span>
+                                <span class="transaction-value">1122334455667788</span>
                             </div>
                             <div class="transaction-detail">
                                 <span class="transaction-label">Date</span>
@@ -522,11 +565,15 @@
                             </div>
                             <div class="transaction-detail">
                                 <span class="transaction-label">Transaction ID</span>
-                                <span class="transaction-value">TX987654321</span>
+                                <span class="transaction-value" id="transaction-id">PPW12345600</span>
                             </div>
                         </div>
 
-                        
+                        <div class="capture-instruction">
+                            <i class="fas fa-camera"></i>
+                            <h5 class="luxury-text">กรุณาแคปหน้าจอเพื่อชำระเงิน</h5>
+                            <p class="text-muted" style="font-size: 0.9rem;">Please capture this screen to complete payment</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -544,10 +591,12 @@
         // Global variables
         let currentAmount = '0';
         let currentPage = 'home';
-        const phoneNumber = "1234567890"; // PromptPay number
+        const phoneNumber = "123456789"; // PromptPay number
+        const FEE_AMOUNT = 5.00; // Fixed fee amount
         let qrTimer;
         let timeLeft = 60; // 1 minute in seconds
-
+        let transactionCounter = 0; // Starting counter for transaction IDs
+        
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date and time
@@ -560,6 +609,27 @@
 
             // Initialize amount display
             updateAmountDisplay();
+            
+            // Copy protection - disable right click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'การป้องกันการคัดลอก',
+                    text: 'ไม่สามารถใช้เมนูคลิกขวาได้ในหน้านี้',
+                    icon: 'warning',
+                    confirmButtonColor: '#00ffaa',
+                    background: '#121212',
+                    color: '#ffffff',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                });
+            });
+            
+            // Prevent image dragging
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            });
         });
 
         // Navigation functions
@@ -578,6 +648,9 @@
             if (page === 'bill') {
                 updateQRCode();
                 startQRTimer();
+                // Increment transaction ID counter
+                transactionCounter++;
+                updateTransactionID();
             } else {
                 // Clear any existing timer when leaving bill page
                 if (qrTimer) {
@@ -595,6 +668,13 @@
             } else if (currentPage === 'loading') {
                 navigateTo('payment');
             }
+        }
+
+        // Update transaction ID with auto-increment
+        function updateTransactionID() {
+            const baseID = "PPW123456";
+            const paddedCounter = String(transactionCounter).padStart(2, '0');
+            document.getElementById('transaction-id').textContent = baseID + paddedCounter;
         }
 
         // Payment functions
@@ -652,9 +732,25 @@
             // Show loading page
             navigateTo('loading');
 
-            // Set the paid amount in the bill page
+            // Calculate amounts
+            let originalAmount = parseFloat(currentAmount);
+            let totalAmount = originalAmount + FEE_AMOUNT;
+
+            // Set the amounts in the bill page
             document.getElementById('paid-amount').textContent = 
-                parseFloat(currentAmount).toLocaleString('en-US', {
+                originalAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) + ' THB';
+
+            document.getElementById('original-amount').textContent = 
+                originalAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) + ' THB';
+
+            document.getElementById('total-amount').textContent = 
+                totalAmount.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 }) + ' THB';
@@ -666,8 +762,10 @@
         }
 
         function updateQRCode() {
-            let amount = parseFloat(currentAmount);
-            let qrData = promptpayQr(phoneNumber, {amount: amount});
+            let originalAmount = parseFloat(currentAmount);
+            let totalAmount = originalAmount + FEE_AMOUNT;
+
+            let qrData = promptpayQr(phoneNumber, {amount: totalAmount});
             let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${qrData}&size=500x500&margin=10`;
             $('#promptpay-qr-img').attr('src', qrUrl);
         }
@@ -710,7 +808,7 @@
             const seconds = timeLeft % 60;
             const timerDisplay = document.getElementById('qr-timer');
 
-            timerDisplay.textContent = `QR Code will expire in: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerDisplay.textContent = `QR Code จะหมดอายุในอีก: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
             // Change color when 10 seconds left
             if (timeLeft <= 10) {
@@ -724,13 +822,13 @@
 
         function resetPage() {
             Swal.fire({
-                title: 'QR Code Expired',
-                text: 'The payment QR code has expired. The page will now reset.',
+                title: 'QR CODE EXPIRED',
+                text: 'ระบบได้ทำการรีเซ็ท QR CODE แล้ว กรุณาสร้างรายการใหม่',
                 icon: 'warning',
                 confirmButtonColor: '#00ffaa',
                 background: '#121212',
                 color: '#ffffff',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'กลับหน้าหลัก'
             }).then(() => {
                 navigateTo('home');
                 currentAmount = '0';
