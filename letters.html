@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LET ME COOK PAYMENT SYSTEM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --pastel-purple: #c7a4ff;
+            --pastel-pink: #ffb6e6;
+            --soft-purple: #e2d1ff;
+            --soft-pink: #ffd6f4;
+            --dark-bg: #faf5ff;
+            --darker-bg: #f0e5ff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-dark: #4a3a6b;
+            --text-muted: #9b8fb5;
+            --highlight: rgba(199, 164, 255, 0.2);
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-dark);
+            font-family: 'Kanit', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Disable image dragging */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+
+        /* Disable context menu */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .bg-darker {
+            background-color: var(--darker-bg);
+        }
+
+        .luxury-text {
+            color: var(--pastel-purple);
+        }
+
+        .luxury-border {
+            border: 1px solid var(--pastel-purple);
+        }
+
+        .luxury-btn {
+            background-color: rgba(199, 164, 255, 0.1);
+            color: var(--pastel-purple);
+            border: 1px solid var(--pastel-purple);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .luxury-btn:hover {
+            background: linear-gradient(45deg, var(--pastel-purple), var(--pastel-pink));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(199, 164, 255, 0.3);
+        }
+
+        .luxury-btn:active {
+            transform: translateY(0);
+        }
+
+        .luxury-btn-sm {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .card-luxury {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid rgba(199, 164, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(199, 164, 255, 0.1);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-luxury:hover {
+            transform: translateY(-5px);
+            border-color: var(--pastel-purple);
+            box-shadow: 0 12px 40px rgba(199, 164, 255, 0.15);
+        }
+
+        .input-luxury {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(199, 164, 255, 0.3);
+            color: var(--text-dark);
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .input-luxury:focus {
+            outline: none;
+            border-color: var(--pastel-purple);
+            box-shadow: 0 0 0 2px rgba(199, 164, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .number-pad button {
+            height: 50px;
+            font-size: 1.3rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: var(--text-dark);
+            border: 1px solid rgba(199, 164, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number-pad button:hover {
+            background-color: var(--highlight);
+            border-color: var(--pastel-purple);
+        }
+
+        .number-pad button:active {
+            transform: scale(0.95);
+        }
+
+        .qr-container {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(199, 164, 255, 0.2);
+        }
+
+        .qr-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                var(--pastel-purple),
+                transparent,
+                transparent,
+                transparent
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -50%;
+                top: -50%;
+            }
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        .success-icon {
+            font-size: 3.5rem;
+            color: var(--pastel-purple);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .active-page {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(199, 164, 255, 0.2);
+            border-top: 4px solid var(--pastel-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .amount-display {
+            font-size: 2rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            background: linear-gradient(90deg, var(--pastel-purple), var(--pastel-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 8px 0;
+        }
+
+        .transaction-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(199, 164, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .transaction-detail:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .transaction-value {
+            font-weight: 500;
+        }
+
+        .card-number {
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            background: linear-gradient(90deg, var(--pastel-purple), var(--pastel-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-logo {
+            width: 60px;
+            height: auto;
+            opacity: 0.9;
+        }
+
+        .header {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pastel-purple), transparent);
+        }
+
+        /* Compact card style */
+        .compact-card {
+            padding: 1.5rem;
+        }
+
+        .compact-card .card-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .compact-card .card-text {
+            font-size: 0.9rem;
+        }
+
+        /* Timer style */
+        .qr-timer {
+            font-size: 1.2rem;
+            color: var(--pastel-purple);
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Capture instruction box */
+        .capture-instruction {
+            background-color: rgba(199, 164, 255, 0.1);
+            border: 1px solid var(--pastel-purple);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .capture-instruction i {
+            font-size: 1.5rem;
+            color: var(--pastel-purple);
+            margin-bottom: 10px;
+        }
+
+        /* Copy icon style */
+        .copy-icon {
+            color: var(--pastel-purple);
+            margin-left: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-icon:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        /* Custom SweetAlert2 styles */
+        .swal2-container {
+            backdrop-filter: blur(5px);
+        }
+
+        .swal2-popup {
+            background: var(--card-bg);
+            border: 1px solid rgba(199, 164, 255, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(199, 164, 255, 0.15);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        .swal2-toast.swal2-popup {
+            background: var(--card-bg);
+            border: 1px solid rgba(199, 164, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(199, 164, 255, 0.1);
+        }
+
+        .swal2-title {
+            color: var(--pastel-purple);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .swal2-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pastel-purple), transparent);
+        }
+
+        .swal2-content {
+            color: var(--text-dark);
+        }
+
+        .swal2-actions {
+            margin: 1.25em auto 0;
+        }
+
+        .swal2-confirm {
+            background-color: rgba(199, 164, 255, 0.1) !important;
+            color: var(--pastel-purple) !important;
+            border: 1px solid var(--pastel-purple) !important;
+            border-radius: 12px !important;
+            padding: 8px 24px !important;
+            transition: all 0.3s ease !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        .swal2-confirm:hover {
+            background-color: var(--pastel-purple) !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(199, 164, 255, 0.3) !important;
+        }
+
+        .swal2-timer-progress-bar {
+            background: linear-gradient(90deg, var(--pastel-purple), var(--pastel-pink)) !important;
+        }
+
+        /* Toast animation */
+        .swal2-show {
+            animation: toastSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .swal2-hide {
+            animation: toastSlideOut 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+        }
+
+        @keyframes toastSlideIn {
+            0% {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toastSlideOut {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+        }
+
+        /* Icon animation */
+        .swal2-icon.swal2-success {
+            border-color: var(--pastel-purple) !important;
+            color: var(--pastel-purple) !important;
+        }
+
+        .swal2-success-line-tip,
+        .swal2-success-line-long {
+            background-color: var(--pastel-purple) !important;
+        }
+
+        .swal2-icon.swal2-success .swal2-success-ring {
+            border: 4px solid rgba(199, 164, 255, 0.3) !important;
+            animation: pulseRing 2s infinite;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+        }
+
+        /* Shine effect */
+        .swal2-popup:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                var(--pastel-purple),
+                transparent,
+                transparent,
+                transparent
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        /* Heartbeat animation for cute effect */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .heartbeat {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .qr-container {
+                width: 180px;
+                height: 180px;
+            }
+
+            .amount-display {
+                font-size: 1.8rem;
+            }
+
+            .number-pad button {
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .luxury-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .qr-timer {
+                font-size: 1rem;
+            }
+
+            .capture-instruction {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="container py-4">
+        <!-- Home Page -->
+        <div id="home-page" class="page active-page">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="text-center mb-4">
+                        <h1 class="luxury-text mb-2" style="font-size: 1.8rem;">Payment Online</h1>
+                        <p class="text-muted" style="font-size: 0.9rem;">บริการชำระค่าบริการแบบออนไลน์</p>
+                    </div>
+
+                    <div class="card-luxury compact-card mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">Account Name</p>
+                                <h3 class="luxury-text" style="font-size: 1.2rem;">THARADA SUANTHONG</h3>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" class="card-logo">
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.85rem;">Account Number</p>
+                            <h4 class="card-number">099-XXX-X-633</h4>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">ACCOUNTTING</p>
+                                <h5 style="font-size: 1rem;">Prompt Pay</h5>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">Status</p>
+                                <h5 style="font-size: 1rem;">ONLINE</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="send-new-btn" class="btn luxury-btn luxury-btn-sm px-4 py-2 heartbeat">
+                            <i class="fas fa-paper-plane me-2"></i> CREATE A PAYMENT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Page -->
+        <div id="payment-page" class="page">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="header">
+                        <h2 class="luxury-text text-center mb-0" style="font-size: 1.5rem;">PAYMENT AMOUNT</h2>
+                        <button class="btn btn-sm text-muted position-absolute" onclick="goBack()" style="left: 0; top: 0; font-size: 0.8rem;">
+                            <i class="fas fa-arrow-left me-1"></i> BACK
+                        </button>
+                    </div>
+
+                    <div class="card-luxury p-3 mb-3">
+                        <div class="mb-3">
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">Account Name</label>
+                            <div class="input-luxury p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span style="font-size: 0.95rem;"> ธาราดา สวนทอง</span>
+                                    <span class="text-muted" style="font-size: 0.85rem;">G-WALLET</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">Amount (THB)</label>
+                            <div class="input-luxury p-2 text-center">
+                                <div class="amount-display" id="amount-display">0.00</div>
+                            </div>
+                        </div>
+
+                        <div class="number-pad">
+                            <button class="btn" onclick="appendNumber('7')">7</button>
+                            <button class="btn" onclick="appendNumber('8')">8</button>
+                            <button class="btn" onclick="appendNumber('9')">9</button>
+                            <button class="btn" onclick="appendNumber('4')">4</button>
+                            <button class="btn" onclick="appendNumber('5')">5</button>
+                            <button class="btn" onclick="appendNumber('6')">6</button>
+                            <button class="btn" onclick="appendNumber('1')">1</button>
+                            <button class="btn" onclick="appendNumber('2')">2</button>
+                            <button class="btn" onclick="appendNumber('3')">3</button>
+                            <button class="btn" onclick="appendNumber('.')">.</button>
+                            <button class="btn" onclick="appendNumber('0')">0</button>
+                            <button class="btn" onclick="clearAmount()"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <button id="next-btn" class="btn luxury-btn luxury-btn-sm px-4 py-2 heartbeat" disabled onclick="processPayment()">
+                            NEXT <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Page -->
+        <div id="loading-page" class="page">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 text-center">
+                    <div class="loading-spinner"></div>
+                    <h4 class="luxury-text mt-3" style="font-size: 1.2rem;">Processing Payment</h4>
+                    <p class="text-muted" style="font-size: 0.9rem;">Please wait while we complete your transaction</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bill Page -->
+        <div id="bill-page" class="page">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="header">
+                        <button class="btn btn-sm text-muted" onclick="goBack()" style="font-size: 0.8rem;">
+                            <i class="fas fa-arrow-left me-1"></i> BACK
+                        </button>
+                        <h2 class="luxury-text text-center mb-0" style="font-size: 1.5rem;">PAYMENT RECEIPT</h2>
+                    </div>
+
+                    <div class="card-luxury p-3 text-center">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="luxury-text mb-3" style="font-size: 1.3rem;">TRANSACTION COMPLETE</h3>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.85rem;">Amount Paid</p>
+                            <h2 id="paid-amount" class="amount-display" style="font-size: 1.8rem;">0.00 THB</h2>
+                        </div>
+                        <center> <img src="https://img2.pic.in.th/pic/1000008216.jpg" class="card-logo"></center>
+
+                        <div class="qr-container mb-3">
+                            <img id="promptpay-qr-img" src="" alt="QR Code" style="width: 100%; height: 100%;">
+                        </div>
+
+                        <div class="qr-timer" id="qr-timer">
+                            QR Code จะหมดอายุในอีก: 00:30 วินาที
+                        </div>
+
+                        <div class="text-start mb-3">
+                            <div class="transaction-detail">
+                                <span class="transaction-label">Account Name</span>
+                                <span class="transaction-value"> THARADA SUANTHONG</span>
+                            </div>
+                            <div class="transaction-detail">
+                                <span class="transaction-label">Account Number</span>
+                                <span class="transaction-value">099-X-XXX3-3
+                                    <i class="fas fa-copy copy-icon" onclick="copyToClipboard('0991925633')" title="Copy Account Number"></i>
+                                </span>
+                            </div>
+                            <div class="transaction-detail">
+                                <span class="transaction-label">วันที่</span>
+                                <span class="transaction-value" id="transaction-date">26 เม.ย. 2566</span>
+                            </div>
+                            <div class="transaction-detail">
+                                <span class="transaction-label">เวลา</span>
+                                <span class="transaction-value" id="transaction-time">12:48 น.</span>
+                            </div>
+                            <div class="transaction-detail">
+                                <span class="transaction-label">Transaction ID</span>
+                                <span class="transaction-value" id="transaction-id">LMC97910500</span>
+                            </div>
+                        </div>
+
+                        <div class="capture-instruction">
+                            <h5 class="luxury-text">กรุณาแคปหน้าจอเพื่อชำระเงิน</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module">
+        import promptpayQr from 'https://fastly.jsdelivr.net/npm/promptpay-qr@0.5.0/+esm'
+        window.promptpayQr = promptpayQr
+    </script>
+    <script>
+        // Global variables
+        let currentAmount = '0';
+        let currentPage = 'home';
+        const phoneNumber = "0991925633"; // PromptPay number
+        const FEE_AMOUNT = 0.00; // Fixed fee amount
+        let qrTimer;
+        let timeLeft = 30; // 1 minute in seconds
+        let transactionCounter = 0; // Starting counter for transaction IDs
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date and time
+            updateDateTime();
+
+            // Event listeners
+            document.getElementById('send-new-btn').addEventListener('click', function() {
+                navigateTo('payment');
+            });
+
+            // Initialize amount display
+            updateAmountDisplay();
+
+            // Copy protection - disable right click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '<span style="color: var(--pastel-purple);">การป้องกันการคัดลอก</span>',
+                    html: '<div style="color: var(--text-dark);">ไม่สามารถใช้เมนูคลิกขวาได้ในหน้านี้</div>',
+                    icon: 'warning',
+                    confirmButtonColor: 'var(--pastel-purple)',
+                    background: 'var(--card-bg)',
+                    customClass: {
+                        popup: 'luxury-toast-popup',
+                        title: 'luxury-toast-title',
+                        htmlContainer: 'luxury-toast-content'
+                    },
+                    confirmButtonText: 'เข้าใจแล้ว'
+                });
+            });
+
+            // Prevent image dragging
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            });
+        });
+
+        // Copy to clipboard function with luxury toast
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-dark)',
+                    iconColor: 'var(--pastel-purple)',
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+
+                        // Add shine effect to icon
+                        const icon = toast.querySelector('.swal2-icon');
+                        if (icon) {
+                            icon.style.position = 'relative';
+                            icon.style.overflow = 'hidden';
+
+                            const shine = document.createElement('div');
+                            shine.style.position = 'absolute';
+                            shine.style.top = '-50%';
+                            shine.style.left = '-50%';
+                            shine.style.width = '200%';
+                            shine.style.height = '200%';
+                            shine.style.background = 'linear-gradient(to bottom right, transparent, transparent, transparent, rgba(199, 164, 255, 0.5), transparent, transparent, transparent)';
+                            shine.style.transform = 'rotate(30deg)';
+                            shine.style.animation = 'shine 1.5s infinite';
+                            shine.style.pointerEvents = 'none';
+
+                            icon.appendChild(shine);
+                        }
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: '<span style="color: var(--pastel-purple);">PAPER WORK PAYMENT</span>',
+                    html: '<div style="font-size: 0.8rem; color: var(--text-dark);"> Copy <span style="color: var(--pastel-purple); font-weight: 450;"> 062-X-XXX2-9 </span> Success </div>',
+                    customClass: {
+                        popup: 'luxury-toast-popup',
+                        title: 'luxury-toast-title',
+                        htmlContainer: 'luxury-toast-content'
+                    }
+                });
+            }).catch(function(err) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-dark)',
+                    iconColor: '#ff6b6b',
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: 'error',
+                    title: '<span style="color: #ff6b6b;">ไม่สามารถคัดลอกได้</span>',
+                    customClass: {
+                        popup: 'luxury-toast-popup',
+                        title: 'luxury-toast-title'
+                    }
+                });
+            });
+        }
+
+        // Navigation functions
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active-page');
+            });
+
+            document.getElementById(`${page}-page`).classList.add('active-page');
+            currentPage = page;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            // If going to bill page, update QR code and start timer
+            if (page === 'bill') {
+                updateQRCode();
+                startQRTimer();
+                // Increment transaction ID counter
+                transactionCounter++;
+                updateTransactionID();
+            } else {
+                // Clear any existing timer when leaving bill page
+                if (qrTimer) {
+                    clearInterval(qrTimer);
+                    timeLeft = 30;
+                }
+            }
+        }
+
+        function goBack() {
+            if (currentPage === 'payment') {
+                navigateTo('home');
+            } else if (currentPage === 'bill') {
+                navigateTo('payment');
+            } else if (currentPage === 'loading') {
+                navigateTo('payment');
+            }
+        }
+
+        // Update transaction ID with auto-increment
+        function updateTransactionID() {
+            const baseID = "LMC979105";
+            const paddedCounter = String(transactionCounter).padStart(2, '0');
+            document.getElementById('transaction-id').textContent = baseID + paddedCounter;
+        }
+
+        // Payment functions
+        function appendNumber(num) {
+            if (currentAmount === '0' && num !== '.') {
+                currentAmount = num;
+            } else {
+                // Prevent multiple decimal points
+                if (num === '.' && currentAmount.includes('.')) {
+                    return;
+                }
+
+                // Limit to 2 decimal places
+                if (currentAmount.includes('.') && currentAmount.split('.')[1].length >= 2) {
+                    return;
+                }
+
+                currentAmount += num;
+            }
+
+            updateAmountDisplay();
+        }
+
+        function clearAmount() {
+            if (currentAmount.length === 1) {
+                currentAmount = '0';
+            } else {
+                currentAmount = currentAmount.slice(0, -1);
+            }
+
+            updateAmountDisplay();
+        }
+
+        function updateAmountDisplay() {
+            const amountDisplay = document.getElementById('amount-display');
+            const nextBtn = document.getElementById('next-btn');
+
+            // Format the amount with commas
+            let formattedAmount = parseFloat(currentAmount).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            amountDisplay.textContent = formattedAmount;
+
+            // Enable/disable next button based on amount
+            if (parseFloat(currentAmount) > 0) {
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.disabled = true;
+            }
+        }
+
+        function processPayment() {
+            // Show loading page
+            navigateTo('loading');
+
+            // Calculate amounts
+            let originalAmount = parseFloat(currentAmount);
+            let totalAmount = originalAmount + FEE_AMOUNT;
+
+            // Set the amounts in the bill page
+            document.getElementById('paid-amount').textContent = 
+                originalAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) + ' THB';
+
+            // After 3 seconds, show bill page
+            setTimeout(() => {
+                navigateTo('bill');
+            }, 3000);
+        }
+
+        function updateQRCode() {
+            let originalAmount = parseFloat(currentAmount);
+            let totalAmount = originalAmount + FEE_AMOUNT;
+
+            let qrData = promptpayQr(phoneNumber, {amount: totalAmount});
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${qrData}&size=500x500&margin=10`;
+            $('#promptpay-qr-img').attr('src', qrUrl);
+        }
+
+        // Date and time functions
+        function updateDateTime() {
+            const now = new Date();
+            const months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+            const dateStr = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
+
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'น.' : 'น.';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+
+            document.getElementById('transaction-date').textContent = dateStr;
+            document.getElementById('transaction-time').textContent = timeStr;
+        }
+
+        // QR Timer functions
+        function startQRTimer() {
+            timeLeft = 30; // Reset to 1 minute
+            updateTimerDisplay();
+
+            // Clear any existing timer
+            if (qrTimer) {
+                clearInterval(qrTimer);
+            }
+
+            // Start new timer
+            qrTimer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(qrTimer);
+                    resetPage();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 30);
+            const seconds = timeLeft % 30;
+            const timerDisplay = document.getElementById('qr-timer');
+
+            timerDisplay.textContent = `QR Code จะหมดอายุในอีก: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Change color when 10 seconds left
+            if (timeLeft <= 10) {
+                timerDisplay.style.color = '#ff6b6b';
+                timerDisplay.style.animation = 'pulse 0.5s infinite alternate';
+            } else {
+                timerDisplay.style.color = 'var(--pastel-purple)';
+                timerDisplay.style.animation = 'none';
+            }
+        }
+
+        function resetPage() {
+            Swal.fire({
+                title: 'QR CODE EXPIRED',
+                text: 'ระบบได้ทำการรีเซ็ท QR CODE แล้ว กรุณาสร้างรายการใหม่',
+                icon: 'warning',
+                confirmButtonColor: 'var(--pastel-purple)',
+                background: '#faf5ff',
+                color: '#4a3a6b',
+                confirmButtonText: 'สร้างรายการใหม่'
+            }).then(() => {
+                navigateTo('payment');
+                currentAmount = '0';
+                updateAmountDisplay();
+            });
+        }
+    </script>
+</body>
+</html>
